@@ -1,0 +1,14 @@
+{
+    "win32": {
+        "material": "tabbed",
+        "color": "rgba(255, 255, 255, 0.2)",
+        "transparent": false,
+        "frame": false,
+        "thickFrame": true
+    },
+    "linux": {
+        "material": "blur",
+        "color": "rgba(255, 255, 255, 0.2)",
+        "transparent": true
+    }
+}
