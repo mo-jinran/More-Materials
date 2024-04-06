@@ -23,7 +23,11 @@ ipcMain.handle("LiteLoader.more_materials.update", () => {
 
 
 function update(window) {
+    const url = window.webContents.getURL();
     const config = LiteLoader.api.config.get(manifest.slug, default_config);
+    if (url.includes("#/screen-record")) {
+        return;
+    }
     if (LiteLoader.os.platform == "win32") {
         if (!config.transparent) {
             window.setBackgroundMaterial(config.win32.material);
