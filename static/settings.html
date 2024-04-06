@@ -1,52 +1,57 @@
 <style>
-    /* 下拉选择框 */
-    .more_materials setting-select {
-        width: 150px;
-    }
+    .more_materials {
+        setting-select {
+            width: 150px;
+        }
 
-    /* 搜索框 */
-    .more_materials input {
-        width: 150px;
-        height: 24px;
-        border-radius: 4px;
-        transition: all 100ms ease-out;
-    }
+        input {
+            & {
+                width: 150px;
+                height: 24px;
+                border-radius: 4px;
+                transition: all 100ms ease-out;
+            }
 
-    /* 搜索框-聚焦 */
-    .more_materials input:focus {
-        background-color: var(--overlay_active);
+            &:focus {
+                background-color: var(--overlay_active);
+            }
+
+            @media (prefers-color-scheme: light) {
+                & {
+                    color: black;
+                }
+            }
+
+            @media (prefers-color-scheme: dark) {
+                & {
+                    color: white;
+                }
+            }
+        }
     }
 </style>
 
 
 <setting-section data-title="使用前必读">
-
     <setting-panel>
         <setting-list data-direction="column">
-
             <setting-item>
                 <setting-text>Windows 11 22H2 及以上，需关闭 <strong>通用-其他-透明效果</strong></setting-text>
             </setting-item>
-
             <setting-item>
                 <setting-text>Linux + KDE + X11，需安装 <strong>wmctrl</strong> 和 <strong>xorg-xprop</strong></setting-text>
             </setting-item>
-
             <setting-item>
                 <setting-text>插件仅修改窗体相关，若想正常使用，可能还需安装适配此插件的第三方主题</setting-text>
             </setting-item>
-
         </setting-list>
     </setting-panel>
-
 </setting-section>
 
 
 <setting-section data-title="自定义窗体">
-
     <setting-panel class="windows">
         <setting-list is-collapsible data-direction="column" data-title="Windows">
-
             <setting-item>
                 <div>
                     <setting-text>材质</setting-text>
@@ -60,7 +65,6 @@
                     <setting-option data-value="tabbed">使用 Tabbed 材质</setting-option>
                 </setting-select>
             </setting-item>
-
             <setting-item>
                 <div>
                     <setting-text>颜色</setting-text>
@@ -68,7 +72,6 @@
                 </div>
                 <input type="text" spellcheck="false" placeholder="请输入">
             </setting-item>
-
             <setting-item>
                 <div>
                     <setting-text>Transparent</setting-text>
@@ -76,7 +79,6 @@
                 </div>
                 <setting-switch></setting-switch>
             </setting-item>
-
             <setting-item>
                 <div>
                     <setting-text>Frame</setting-text>
@@ -84,7 +86,6 @@
                 </div>
                 <setting-switch></setting-switch>
             </setting-item>
-
             <setting-item>
                 <div>
                     <setting-text>ThickFrame</setting-text>
@@ -92,13 +93,10 @@
                 </div>
                 <setting-switch></setting-switch>
             </setting-item>
-
         </setting-list>
     </setting-panel>
-
     <setting-panel class="linux">
         <setting-list is-collapsible data-direction="column" data-title="Linux">
-
             <setting-item>
                 <div>
                     <setting-text>材质</setting-text>
@@ -109,7 +107,6 @@
                     <setting-option data-value="blur">使用 Blur 材质</setting-option>
                 </setting-select>
             </setting-item>
-
             <setting-item>
                 <div>
                     <setting-text>颜色</setting-text>
@@ -117,7 +114,6 @@
                 </div>
                 <input type="text" spellcheck="false" placeholder="请输入">
             </setting-item>
-
             <setting-item>
                 <div>
                     <setting-text>Transparent</setting-text>
@@ -125,8 +121,6 @@
                 </div>
                 <setting-switch></setting-switch>
             </setting-item>
-
         </setting-list>
     </setting-panel>
-
 </setting-section>
