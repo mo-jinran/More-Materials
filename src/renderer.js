@@ -8,14 +8,21 @@ export const onSettingWindowCreated = async view => {
 
     view.innerHTML = await (await fetch(`local:///${plugin_path}/static/settings.html`)).text();
 
-    const win32_material = view.querySelectorAll(".windows SETTING-SELECT")[0];
+    if (LiteLoader.os.platform == "win32") {
+        view.querySelector(".windows setting-list").setAttribute("is-active", "");
+    }
+    if (LiteLoader.os.platform == "linux") {
+        view.querySelector(".linux setting-list").setAttribute("is-active", "");
+    }
+
+    const win32_material = view.querySelectorAll(".windows setting-select")[0];
     const win32_color = view.querySelectorAll(".windows input")[0];
-    const win32_transparent = view.querySelectorAll(".windows SETTING-SWITCH")[0];
-    const win32_frame = view.querySelectorAll(".windows SETTING-SWITCH")[1];
-    const win32_thickFrame = view.querySelectorAll(".windows SETTING-SWITCH")[2];
-    const linux_material = view.querySelectorAll(".linux SETTING-SELECT")[0];
+    const win32_transparent = view.querySelectorAll(".windows setting-switch")[0];
+    const win32_frame = view.querySelectorAll(".windows setting-switch")[1];
+    const win32_thickFrame = view.querySelectorAll(".windows setting-switch")[2];
+    const linux_material = view.querySelectorAll(".linux setting-select")[0];
     const linux_color = view.querySelectorAll(".linux input")[0];
-    const linux_transparent = view.querySelectorAll(".linux SETTING-SWITCH")[0];
+    const linux_transparent = view.querySelectorAll(".linux setting-switch")[0];
 
     win32_material.querySelector(`[data-value="${config.win32.material}"]`).click()
     win32_color.value = config.win32.color;
