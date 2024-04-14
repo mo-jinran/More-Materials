@@ -35,6 +35,7 @@ function update(window) {
         window.setBackgroundColor(config.win32.color);
     }
     if (LiteLoader.os.platform == "linux") {
+        window.setBackgroundColor(config.linux.color);
         if (!config.linux.transparent) {
             return;
         }
@@ -47,11 +48,9 @@ function update(window) {
                 if (config.linux.material == "blur") {
                     execSync(`xprop -id ${id.split(" ")[0]} -f _KDE_NET_WM_BLUR_BEHIND_REGION 32c -set _KDE_NET_WM_BLUR_BEHIND_REGION 0x0`);
                 }
-                window.setBackgroundColor(config.linux.color);
             }
         } catch(e) {
             console.log(e);
-            return;
         }
     }
 }
