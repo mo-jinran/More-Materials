@@ -35,14 +35,23 @@ function update(window) {
         window.setBackgroundColor(config.win32.color);
     }
     if (LiteLoader.os.platform == "linux") {
-        const ids = execSync(`wmctrl -xl | grep qq.QQ`, { encoding: "utf-8" });
-        for (const id of ids.trim().split("\n")) {
-            if (config.linux.material == "none") {
-                execSync(`xprop -id ${id.split(" ")[0]} -remove _KDE_NET_WM_BLUR_BEHIND_REGION`);
+        if (!config.linux.transparent) {
+            return;
+        }
+        try {
+            let ids = execSync(`wmctrl -xl | grep qq.QQ`, { encoding: "utf-8" });
+            for (const id of ids.trim().split("\n")) {
+                if (config.linux.material == "none") {
+                    execSync(`xprop -id ${id.split(" ")[0]} -remove _KDE_NET_WM_BLUR_BEHIND_REGION`);
+                }
+                if (config.linux.material == "blur") {
+                    execSync(`xprop -id ${id.split(" ")[0]} -f _KDE_NET_WM_BLUR_BEHIND_REGION 32c -set _KDE_NET_WM_BLUR_BEHIND_REGION 0x0`);
+                }
+                window.setBackgroundColor(config.linux.color);
             }
-            if (config.linux.material == "blur") {
-                execSync(`xprop -id ${id.split(" ")[0]} -f _KDE_NET_WM_BLUR_BEHIND_REGION 32c -set _KDE_NET_WM_BLUR_BEHIND_REGION 0x0`);
-            }
+        } catch(e) {
+            console.log(e);
+            return;
         }
     }
 }
