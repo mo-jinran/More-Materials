@@ -29,26 +29,22 @@ function update(window) {
         return;
     }
     if (LiteLoader.os.platform == "win32") {
-        if (!config.transparent) {
+        if (!config.win32.transparent) {
             window.setBackgroundMaterial(config.win32.material);
         }
         window.setBackgroundColor(config.win32.color);
     }
     if (LiteLoader.os.platform == "linux") {
-        window.setBackgroundColor(config.linux.color);
-        if (!config.linux.transparent) {
-            return;
-        }
         try {
-            let ids = execSync(`wmctrl -xl | grep qq.QQ`, { encoding: "utf-8" });
+            const ids = execSync(`wmctrl -xl | grep qq.QQ`, { encoding: "utf-8" });
             for (const id of ids.trim().split("\n")) {
-                if (config.linux.material == "none") {
+                if (config.linux.material === "none" || !config.linux.transparent) {
                     execSync(`xprop -id ${id.split(" ")[0]} -remove _KDE_NET_WM_BLUR_BEHIND_REGION`);
-                }
-                if (config.linux.material == "blur") {
+                } else if (config.linux.material === "blur") {
                     execSync(`xprop -id ${id.split(" ")[0]} -f _KDE_NET_WM_BLUR_BEHIND_REGION 32c -set _KDE_NET_WM_BLUR_BEHIND_REGION 0x0`);
                 }
             }
+            window.setBackgroundColor(config.linux.color);
         } catch(e) {
             console.log(e);
         }
