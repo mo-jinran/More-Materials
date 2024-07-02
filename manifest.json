@@ -1,10 +1,10 @@
 {
     "manifest_version": 4,
-    "type": "extension",
+    "type": "theme",
     "name": "More Materials",
     "slug": "more_materials",
     "description": "添加更多的背景材质，替换原本的透明效果（Windows 11 22H2 及以上，Linux + KDE + X11）",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "authors": [
         {
             "name": "沫烬染",
@@ -21,10 +21,10 @@
         "preload": "./src/preload.js"
     },
     "repository": {
-        "repo": "mo-jinran/more-materials",
+        "repo": "mo-jinran/More-Materials",
         "branch": "main",
         "release": {
-            "tag": "1.0.1"
+            "tag": "1.0.2"
         }
     }
 }
