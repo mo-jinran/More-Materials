@@ -1,6 +1,5 @@
 const manifest = require("../manifest.json");
 const default_config = require("../static/config.json");
-const { Module } = require("module");
 const { execSync } = require("child_process");
 const { BrowserWindow, ipcMain } = require("electron");
 
@@ -12,12 +11,11 @@ exports.onBrowserWindowCreated = window => {
 }
 
 
-ipcMain.handle("LiteLoader.more_materials.update", () => {
+ipcMain.handle("mojinran.more_materials.update", () => {
     for (const window of BrowserWindow.getAllWindows()) {
-        if (!window.isVisible()) {
-            continue;
+        if (window.isVisible()) {
+            update(window);
         }
-        update(window);
     }
 });
 
@@ -45,30 +43,25 @@ function update(window) {
                 }
             }
             window.setBackgroundColor(config.linux.color);
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     }
 }
 
 
-Module._load = new Proxy(Module._load, {
-    apply(target, thisArg, argArray) {
-        const module = Reflect.apply(target, thisArg, argArray);
-        if (argArray[0] != "electron") {
-            return module;
-        }
-        return new Proxy(module, {
+require.cache["electron"] = new Proxy(require.cache["electron"], {
+    get(target, property, receiver) {
+        const electron = Reflect.get(target, property, receiver);
+        return property != "exports" ? electron : new Proxy(electron, {
             get(target, property, receiver) {
-                if (property != "BrowserWindow") {
-                    return Reflect.get(target, property, receiver);
-                }
-                return new Proxy(module.BrowserWindow, {
-                    construct(target, [original_options], newTarget) {
+                const BrowserWindow = Reflect.get(target, property, receiver);
+                return property != "BrowserWindow" ? BrowserWindow : new Proxy(BrowserWindow, {
+                    construct(target, [options], newTarget) {
                         const config = LiteLoader.api.config.get(manifest.slug, default_config);
                         if (LiteLoader.os.platform == "win32") {
                             return Reflect.construct(target, [{
-                                ...original_options,
+                                ...options,
                                 transparent: config.win32.transparent,
                                 frame: config.win32.frame,
                                 thickFrame: config.win32.thickFrame,
@@ -77,12 +70,12 @@ Module._load = new Proxy(Module._load, {
                         }
                         if (LiteLoader.os.platform == "linux") {
                             return Reflect.construct(target, [{
-                                ...original_options,
+                                ...options,
                                 transparent: config.linux.transparent,
                                 autoHideMenuBar: true
                             }], newTarget);
                         }
-                    },
+                    }
                 });
             }
         });
