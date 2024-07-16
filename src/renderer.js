@@ -48,6 +48,13 @@ export const onSettingWindowCreated = async view => {
         config.win32.thickFrame = event.target.hasAttribute("is-active");
     }));
 
+    const win32_powerfulMode = view.querySelectorAll(".windows setting-switch")[3];
+    win32_powerfulMode.toggleAttribute("is-active", config.win32.powerfulMode);
+    win32_powerfulMode.addEventListener("click", update((event, config) => {
+        event.target.toggleAttribute("is-active");
+        config.win32.powerfulMode = event.target.hasAttribute("is-active");
+    }));
+
     const linux_material = view.querySelectorAll(".linux setting-select")[0];
     linux_material.querySelector(`[data-value="${config.linux.material}"]`).click()
     linux_material.addEventListener("selected", update((event, config) => {
