@@ -46,10 +46,10 @@ function update(window) {
                     execSync(`xprop -id ${id.split(" ")[0]} -f _KDE_NET_WM_BLUR_BEHIND_REGION 32c -set _KDE_NET_WM_BLUR_BEHIND_REGION 0x0`);
                 }
             }
-            window.setBackgroundColor(config.linux.color);
         } catch (e) {
             console.log(e);
         }
+        window.setBackgroundColor(config.linux.color);
     }
 }
 
