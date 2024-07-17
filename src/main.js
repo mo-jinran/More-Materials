@@ -31,6 +31,10 @@ function update(window) {
             window.setBackgroundMaterial(config.win32.material);
         }
         window.setBackgroundColor(config.win32.color);
+
+        if (config.win32.powerfulMode) {
+            window.once("focus", () => update(window));
+        }
     }
     if (LiteLoader.os.platform == "linux") {
         try {

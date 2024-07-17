@@ -4,7 +4,8 @@
         "color": "rgba(127, 127, 127, 0.15)",
         "transparent": false,
         "frame": false,
-        "thickFrame": true
+        "thickFrame": true,
+        "powerfulMode": false
     },
     "linux": {
         "material": "blur",
