@@ -5,17 +5,14 @@ const { BrowserWindow, ipcMain } = require("electron");
 
 
 exports.onBrowserWindowCreated = window => {
-    window.once("show", () => {
-        update(window);
-    });
+    window.on("show", () => update(window));
+    window.on("focus", () => update(window));
 }
 
 
 ipcMain.handle("mojinran.more_materials.update", () => {
     for (const window of BrowserWindow.getAllWindows()) {
-        if (window.isVisible()) {
-            update(window);
-        }
+        update(window);
     }
 });
 
@@ -23,7 +20,11 @@ ipcMain.handle("mojinran.more_materials.update", () => {
 function update(window) {
     const url = window.webContents.getURL();
     const config = LiteLoader.api.config.get(manifest.slug, default_config);
-    if (url.includes("#/screen-record")) {
+    const blacklist = ["#/screen-record", "#/desktop-screenshot"];
+    if (blacklist.some(item => url.includes(item))) {
+        return;
+    }
+    if (!window.isVisible()) {
         return;
     }
     if (LiteLoader.os.platform == "win32") {
@@ -31,10 +32,6 @@ function update(window) {
             window.setBackgroundMaterial(config.win32.material);
         }
         window.setBackgroundColor(config.win32.color);
-
-        if (config.win32.powerfulMode) {
-            window.once("focus", () => update(window));
-        }
     }
     if (LiteLoader.os.platform == "linux") {
         try {
@@ -64,19 +61,16 @@ require.cache["electron"] = new Proxy(require.cache["electron"], {
                     construct(target, [options], newTarget) {
                         const config = LiteLoader.api.config.get(manifest.slug, default_config);
                         if (LiteLoader.os.platform == "win32") {
+                            console.log(options);
                             return Reflect.construct(target, [{
                                 ...options,
-                                transparent: config.win32.transparent,
-                                frame: config.win32.frame,
-                                thickFrame: config.win32.thickFrame,
-                                autoHideMenuBar: true
+                                transparent: options.transparent || config.win32.transparent,
                             }], newTarget);
                         }
                         if (LiteLoader.os.platform == "linux") {
                             return Reflect.construct(target, [{
                                 ...options,
-                                transparent: config.linux.transparent,
-                                autoHideMenuBar: true
+                                transparent: options.transparent || config.linux.transparent,
                             }], newTarget);
                         }
                     }

@@ -2,10 +2,7 @@
     "win32": {
         "material": "tabbed",
         "color": "rgba(127, 127, 127, 0.15)",
-        "transparent": false,
-        "frame": false,
-        "thickFrame": true,
-        "powerfulMode": false
+        "transparent": false
     },
     "linux": {
         "material": "blur",
