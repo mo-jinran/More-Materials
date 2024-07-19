@@ -1,7 +1,7 @@
 {
     "win32": {
-        "material": "tabbed",
-        "color": "rgba(127, 127, 127, 0.15)",
+        "material": "mica",
+        "color": "rgba(0, 0, 0, 0)",
         "transparent": false
     },
     "linux": {
