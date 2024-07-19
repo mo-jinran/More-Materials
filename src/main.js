@@ -17,10 +17,16 @@ ipcMain.handle("mojinran.more_materials.update", () => {
 });
 
 
+const blacklist = [
+    "#/screen-record",      // 录屏
+    "#/desktop-screenshot", // 截屏
+    "#/notification"        // 通知
+];
+
+
 function update(window) {
     const url = window.webContents.getURL();
     const config = LiteLoader.api.config.get(manifest.slug, default_config);
-    const blacklist = ["#/screen-record", "#/desktop-screenshot"];
     if (blacklist.some(item => url.includes(item))) {
         return;
     }
