@@ -20,7 +20,8 @@ ipcMain.handle("mojinran.more_materials.update", () => {
 const blacklist = [
     "#/screen-record",      // 录屏
     "#/desktop-screenshot", // 截屏
-    "#/notification"        // 通知
+    "#/notification",       // 通知
+    "/screenshot.html"      // 26299版截屏
 ];
 
 
@@ -67,7 +68,6 @@ require.cache["electron"] = new Proxy(require.cache["electron"], {
                     construct(target, [options], newTarget) {
                         const config = LiteLoader.api.config.get(manifest.slug, default_config);
                         if (LiteLoader.os.platform == "win32") {
-                            console.log(options);
                             return Reflect.construct(target, [{
                                 ...options,
                                 transparent: options.transparent || config.win32.transparent,
