@@ -1,5 +1,5 @@
-import manifest from "../manifest.json" assert {type: "json"};
-import default_config from "../static/config.json" assert {type: "json"};
+import manifest from "../manifest.json" with {type: "json"};
+import default_config from "../static/config.json" with {type: "json"};
 
 
 export const onSettingWindowCreated = async view => {
